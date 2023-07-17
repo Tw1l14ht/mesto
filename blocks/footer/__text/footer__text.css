@@ -1,0 +1,19 @@
+.footer__text{
+    margin: 0;
+    padding: 0;
+    color: #545454;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+@media screen and (min-width:917px) { 
+    .footer__text{
+        font-family: Inter;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+}
+}

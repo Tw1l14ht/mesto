@@ -1,0 +1,12 @@
+.card__like{
+    padding-right: 5px;
+    transition: opacity 0.3s linear;
+}
+
+.card__like:hover{
+    opacity: 0.5;
+}
+
+.card__like:active{
+    
+}
