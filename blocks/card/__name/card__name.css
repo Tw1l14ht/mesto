@@ -1,7 +1,4 @@
 .card__name{
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     margin: 0;
     font-family: 'Inter';
     font-style: normal;
