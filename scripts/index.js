@@ -1,24 +1,24 @@
-let edit_btn = document.querySelector(".profile__edit-button");
+let btnEdit = document.querySelector(".profile__edit-button");
 let popup = document.querySelector(".popup");
-let nameInput = document.querySelector(".popup__user-name");
-let jobInput = document.querySelector(".popup__descript");
+let nameInput = document.querySelector(".popup__input_date_name");
+let jobInput = document.querySelector(".popup__input_date_describe");
+let firstName = document.querySelector(".profile__name");
+let descript = document.querySelector(".profile__description");
 
-edit_btn.addEventListener('click', (e) => {
+btnEdit.addEventListener('click', (e) => {
     popup.classList.add('popup_opened');
-    let name = document.querySelector(".profile__name");
-    nameInput.value = name.textContent;
-    let descript = document.querySelector(".profile__description");
+    nameInput.value = firstName.textContent;
     jobInput.value = descript.textContent;
 });
 
-let close_btn = document.querySelector('.popup__close');
-close_btn.addEventListener('click', (e) => {
+let btnClose = document.querySelector('.popup__close');
+btnClose.addEventListener('click', (e) => {
     popup.classList.remove('popup_opened');
 } );
 
 
 // Находим форму в DOM
-let formElement = document.querySelector(".popup__button-save");// Воспользуйтесь методом querySelector()
+let formElement = document.querySelector('[name="popupForm"]');// Воспользуйтесь методом querySelector()
 // Находим поля формы в DOM
 
 // Обработчик «отправки» формы, хотя пока
@@ -31,15 +31,12 @@ function handleFormSubmit (evt) {
     let nameValue = nameInput.value;
     let jobValue = jobInput.value;
 
-    let name = document.querySelector(".profile__name");
-    let descript = document.querySelector(".profile__description");
-
-    name.textContent = nameValue;
+    firstName.textContent = nameValue;
     descript.textContent = jobValue;
     popup.classList.remove('popup_opened');
 }
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-formElement.addEventListener('click', handleFormSubmit); 
+formElement.addEventListener('submit', handleFormSubmit); 
  
