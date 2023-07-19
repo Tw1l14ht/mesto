@@ -4,7 +4,7 @@
     border: none;
     background-color: black;
     color: #FFFFFF;
-    margin: auto;
+    margin: 15px auto 0;
     width: 238px;
     height: 46px;
     font-family: 'Inter', 'Arial', sans-serif;
@@ -22,8 +22,8 @@
 
 @media screen and (min-width:768px) {
     .popup__button-save{
+        margin: 18px auto 37px;
         width: 358px;
-        margin-bottom: 37px;
         font-size: 18px;
     }
 }
