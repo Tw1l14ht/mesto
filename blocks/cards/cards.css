@@ -1,11 +1,12 @@
 .cards{
-    width: calc(100% - 38px);
     margin: 29px auto 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
-    grid-template-rows: auto;
+    grid-template-columns: repeat(auto-fit, 282px);
     gap: 12px;
+    grid-template-rows: auto;
+    justify-content: center;
     box-sizing: border-box; 
+
 }
 
 

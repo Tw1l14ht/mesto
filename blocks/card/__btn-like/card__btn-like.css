@@ -1,0 +1,15 @@
+.card__btn-like{
+    cursor: pointer;
+    border: none;
+    padding-right: 5px;
+    transition: opacity 0.3s linear;
+    background-color: transparent;
+}
+
+.card__btn-like:hover{
+    opacity: 0.5;
+}
+
+.card__btn-like:active{
+    
+}
