@@ -1,6 +1,7 @@
 .card__name{
     margin: 0;
-     font-family: 'Inter', 'Arial', sans-serif;
+    max-width: 224px;
+    font-family: 'Inter', 'Arial', sans-serif;
     font-style: normal;
     font-weight: 900;
     font-size: 24px;
