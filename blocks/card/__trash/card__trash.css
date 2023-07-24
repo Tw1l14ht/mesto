@@ -4,6 +4,7 @@
     right: 20px;
     top: 20px;
     transition: opacity 0.3s linear;
+    cursor: pointer;
 
 }
 
