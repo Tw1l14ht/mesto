@@ -80,7 +80,7 @@ function createCard(cardName, src){
 }
 
 
-function profileFormSubmit (evt) {
+function submitFormProfile (evt) {
     evt.preventDefault(); 
     let nameValue = nameInput.value;
     let jobValue = jobInput.value;
@@ -90,7 +90,7 @@ function profileFormSubmit (evt) {
     closePopup(popupProfile);
 }
  
-function placeFormSubmit (evt) {
+function submitPlaceForm (evt) {
     evt.preventDefault(); 
     let imgName = imgNameInp.value;
     let imgSrc = imgSrcInp.value;
@@ -109,8 +109,8 @@ function removeCard(evt){
     evt.target.closest('.card').remove();
 }
 
-formElementPlace.addEventListener('submit', placeFormSubmit);
-formElementProf.addEventListener('submit', profileFormSubmit); 
+formElementPlace.addEventListener('submit', submitPlaceForm);
+formElementProf.addEventListener('submit', submitFormProfile); 
 
 btnCloseProf.addEventListener('click', () => {
     closePopup(popupProfile);
