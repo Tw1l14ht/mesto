@@ -1,3 +1,4 @@
+const popupElem = document.querySelectorAll('.popup');
 const btnEdit = document.querySelector(".profile__edit-button");
 const popupProfile = document.querySelector("#popup__profile");
 const popupPlace = document.querySelector("#popup__place");
@@ -16,41 +17,30 @@ const formElementPlace = document.querySelector('[name="popupAddPlace"]');
 const popupCardImg = document.querySelector('.popup__card-image');
 const popupCardDescribe = document.querySelector('.popup__describe');
 const popupImgClose= document.querySelector('.popup__close_place_card');
+const saveBtnProf = formElementProf.querySelector('.popup__button-save');
+const saveBtnPlace = formElementPlace.querySelector('.popup__button-save');
 const popupImg = document.querySelector('#popup__image');
 const cards = document.querySelector('.cards');
 const cardTemplate = document.querySelector(".card-template").content;
-const initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ]; 
+const validList = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button-save',
+    inactiveButtonClass: 'popup__button-save_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__input-error_visible'
+  }
 
 initialCards.forEach((i) => {
     cardDate = createCard(i.name, i.link);
     addCard(cardDate, cards);
-}
-  )
+});
+
+popupElem.forEach((item) => item.addEventListener('mousedown', function(evt){
+    if (evt.target.classList.contains('popup_opened')) {
+        closePopup(evt.target);
+    }
+}))
 
 function addCard(card, spot) {
     spot.prepend(card);
@@ -58,10 +48,12 @@ function addCard(card, spot) {
 
 function openPopup(openElement){
     openElement.classList.add('popup_opened');
+    document.addEventListener('keydown', closePopupEsc);
 }
 
 function closePopup(closeElement){
     closeElement.classList.remove('popup_opened');
+    document.removeEventListener('keydown', closePopupEsc);
 }
 
 function openImage(cardName, src){
@@ -92,9 +84,9 @@ function profileFormSubmit (evt) {
     evt.preventDefault(); 
     let nameValue = nameInput.value;
     let jobValue = jobInput.value;
-
     firstName.textContent = nameValue;
     descript.textContent = jobValue;
+    installDisButton(saveBtnProf, validList);
     closePopup(popupProfile);
 }
  
@@ -104,9 +96,9 @@ function placeFormSubmit (evt) {
     let imgSrc = imgSrcInp.value;
     let newCard = createCard(imgName, imgSrc);
     addCard(newCard, cards);
+    clearValue(imgNameInp, imgSrcInp)
+    installDisButton(saveBtnPlace, validList);
     closePopup(popupPlace);
-    imgNameInp.value = '';
-    imgSrcInp.value = '';
 }; 
 
 function likeCard(evt){
@@ -128,15 +120,34 @@ btnClosePlace.addEventListener('click', () => {
     closePopup(popupPlace);
 });
 
-btnEdit.addEventListener('click', (e) => {
-    openPopup(popupProfile);
+function fillProfValue(){
     nameInput.value = firstName.textContent;
     jobInput.value = descript.textContent;
+}
+
+function clearValue(first, second){
+    first.value = '';
+    second.value= '';
+}
+
+function closePopupEsc(evt){
+    if (evt.key === 'Escape') {
+        closePopup(document.querySelector('.popup_opened'))
+    }
+}
+
+btnEdit.addEventListener('click', (e) => {
+    openPopup(popupProfile);
+    fillProfValue();
+    removeInputErrors(popupProfile);
+    installActBtn(saveBtnProf, validList);
 });
 
 btnAddPlace.addEventListener('click', (e) => {
-    openPopup(popupPlace);});
-
+    openPopup(popupPlace);
+    clearValue(imgNameInp, imgSrcInp);
+    removeInputErrors(popupPlace);
+});
 popupImgClose.addEventListener('click', () => {
     closePopup(popupImg);
 });

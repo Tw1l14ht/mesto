@@ -41,9 +41,17 @@
                 <button type ="button" class="popup__close" id="profile__close"><img class="popup__img-x" src="./images/CloseIcon.svg" alt="Крестик"></button>
                 <div class="popup__content">
                     <h2 class="popup__head-name">Редактировать профиль</h2>
-                    <form class="popup__form" name = "popupEditProf">
-                        <input type="text" name="inputName" class="popup__input popup__input_date_name" placeholder="Имя">
-                        <input type="text" name="inputDescribe" class="popup__input popup__input_date_describe" placeholder="О себе">
+                    <form novalidate class="popup__form" name = "popupEditProf" id="popupEditProf">
+                        <fieldset class="popup__set">
+                            <label class="popup__field">
+                                <input required minlength="2" maxlength="40" type="text" name="inputName" class="popup__input popup__input_date_name" id="inp-name" placeholder="Имя">
+                                <span class="popup__input-error inp-name-error"></span>
+                            </label>
+                            <label class="popup__field">
+                                <input required minlength="2" maxlength="200" type="text" name="inputDescribe" class="popup__input popup__input_date_describe" id="inp-describe" placeholder="О себе">
+                                <span class="popup__input-error inp-describe-error"></span>
+                            </label>
+                        </fieldset>
                         <button type ="submit" class="popup__button-save">Сохранить</button>
                     </form>
                 </div>
@@ -55,10 +63,18 @@
                 <button type ="button" class="popup__close" id="place__close"><img class="popup__img-x" src="./images/CloseIcon.svg" alt="Крестик"></button>
                     <div class="popup__content">
                         <h2 class="popup__head-name">Новое место</h2>
-                        <form class="popup__form" name = "popupAddPlace">
-                            <input type="text" name="inputPlace" class="popup__input popup__input_date_place" placeholder="Название">
-                            <input type="text" name="inputSrc" class="popup__input popup__input_date_src" placeholder="Ссылка на картинку">
-                            <button type ="submit" class="popup__button-save">Создать</button>
+                        <form novalidate class="popup__form" name = "popupAddPlace">
+                            <fieldset class="popup__set"></fieldset>
+                                <label class="popup__field">
+                                    <input  minlength="2" maxlength="30" required type="text" name="inputPlace" class="popup__input popup__input_date_place" id="inp-place" placeholder="Название">
+                                    <span class="popup__input-error inp-place-error"></span>
+                                </label>
+                                <label class="popup__field">
+                                    <input  required type="url" name="inputSrc" class="popup__input popup__input_date_src" id="inp-src" placeholder="Ссылка на картинку">
+                                    <span class="popup__input-error inp-src-error"></span>
+                                </label>   
+                                    <button type ="submit" class="popup__button-save popup__button-save_disabled" disabled>Создать</button>
+                            </fieldset>
                         </form>
                     </div>
             </div>
@@ -84,7 +100,9 @@
             </div>
         </div>
     </template>
-    
+    <script src="./scripts/cards.js"></script>
     <script src="./scripts/index.js"></script>
+    <script src="./scripts/validate.js"></script>
+
 </body>
 </html>
