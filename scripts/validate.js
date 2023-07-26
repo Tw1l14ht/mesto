@@ -45,8 +45,8 @@ enableValidation(validationConfig);
 const removeInputErrors = (formElement, validationConfig) => {
     const inputList = Array.from(formElement.querySelectorAll(validationConfig.inputSelector));
     inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement, validationConfig);
-    })
+        hideInputError(formElement, inputElement, validationConfig);
+    });
 }
 
 const disableButton = (buttonElement, validationConfig) => {

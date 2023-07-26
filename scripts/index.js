@@ -1,4 +1,4 @@
-const cardList = document.querySelectorAll('.popup');
+const popupList = document.querySelectorAll('.popup');
 const btnEdit = document.querySelector(".profile__edit-button");
 const popupProfile = document.querySelector("#popup__profile");
 const popupPlace = document.querySelector("#popup__place");
@@ -36,7 +36,7 @@ initialCards.forEach((i) => {
     addCard(cardElement, cardsContainer);
 });
 
-cardList.forEach((item) => item.addEventListener('mousedown', function(evt){
+popupList.forEach((item) => item.addEventListener('mousedown', function(evt){
     if (evt.target.classList.contains('popup_opened')) {
         closePopup(evt.target);
     }
