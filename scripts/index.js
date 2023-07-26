@@ -1,4 +1,4 @@
-const popupElem = document.querySelectorAll('.popup');
+const cardList = document.querySelectorAll('.popup');
 const btnEdit = document.querySelector(".profile__edit-button");
 const popupProfile = document.querySelector("#popup__profile");
 const popupPlace = document.querySelector("#popup__place");
@@ -8,7 +8,7 @@ const jobInput = document.querySelector(".popup__input_date_describe");
 const imgNameInp = document.querySelector(".popup__input_date_place");
 const imgSrcInp = document.querySelector(".popup__input_date_src");
 const firstName = document.querySelector(".profile__name");
-const descript = document.querySelector(".profile__description");
+const description = document.querySelector(".profile__description");
 const btnAddPlace = document.querySelector(".profile__add-button");
 const btnCloseProf = document.querySelector('#profile__close');
 const btnClosePlace = document.querySelector('#place__close');
@@ -20,9 +20,9 @@ const popupImgClose= document.querySelector('.popup__close_place_card');
 const saveBtnProf = formElementProf.querySelector('.popup__button-save');
 const saveBtnPlace = formElementPlace.querySelector('.popup__button-save');
 const popupImg = document.querySelector('#popup__image');
-const cards = document.querySelector('.cards');
+const cardsContainer = document.querySelector('.cards');
 const cardTemplate = document.querySelector(".card-template").content;
-const validList = {
+const validationConfig = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button-save',
@@ -32,11 +32,11 @@ const validList = {
   }
 
 initialCards.forEach((i) => {
-    cardDate = createCard(i.name, i.link);
-    addCard(cardDate, cards);
+    const cardElement = createCard(i.name, i.link);
+    addCard(cardElement, cardsContainer);
 });
 
-popupElem.forEach((item) => item.addEventListener('mousedown', function(evt){
+cardList.forEach((item) => item.addEventListener('mousedown', function(evt){
     if (evt.target.classList.contains('popup_opened')) {
         closePopup(evt.target);
     }
@@ -46,13 +46,13 @@ function addCard(card, spot) {
     spot.prepend(card);
 }
 
-function openPopup(openElement){
-    openElement.classList.add('popup_opened');
+function openPopup(popup){
+    popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupEsc);
 }
 
-function closePopup(closeElement){
-    closeElement.classList.remove('popup_opened');
+function closePopup(popup){
+    popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', closePopupEsc);
 }
 
@@ -70,38 +70,38 @@ function createCard(cardName, src){
     imageCard.src = src;
     imageCard.alt = cardName;
     cardContent.querySelector('.card__name').textContent = cardName;
-    cardContent.querySelector('.card__btn-like').addEventListener('click', likeCard);
+    cardContent.querySelector('.card__btn-like').addEventListener('click', handleLikeClick);
     cardContent.querySelector('.card__trash').addEventListener('click', removeCard);
     imageCard.addEventListener('click', (e)=>{
         openImage(cardName, src);
     });
-    return cardContent;
 
+    return cardContent;
 }
 
 
-function submitFormProfile (evt) {
+function handleProfileFormSubmit (evt) {
     evt.preventDefault(); 
-    let nameValue = nameInput.value;
-    let jobValue = jobInput.value;
+    const nameValue = nameInput.value;
+    const jobValue = jobInput.value;
     firstName.textContent = nameValue;
-    descript.textContent = jobValue;
-    installDisButton(saveBtnProf, validList);
+    description.textContent = jobValue;
+    disableButton(saveBtnProf, validationConfig);
     closePopup(popupProfile);
 }
  
-function submitPlaceForm (evt) {
+function handleCardFormSubmit (evt) {
     evt.preventDefault(); 
-    let imgName = imgNameInp.value;
-    let imgSrc = imgSrcInp.value;
-    let newCard = createCard(imgName, imgSrc);
-    addCard(newCard, cards);
-    clearValue(imgNameInp, imgSrcInp)
-    installDisButton(saveBtnPlace, validList);
+    const imgName = imgNameInp.value;
+    const imgSrc = imgSrcInp.value;
+    const newCard = createCard(imgName, imgSrc);
+    addCard(newCard, cardsContainer);
+    formElementPlace.reset();
+    disableButton(saveBtnPlace, validationConfig);
     closePopup(popupPlace);
 }; 
 
-function likeCard(evt){
+function handleLikeClick(evt){
     evt.target.classList.toggle("card__btn-like_active");
 }
 
@@ -109,8 +109,20 @@ function removeCard(evt){
     evt.target.closest('.card').remove();
 }
 
-formElementPlace.addEventListener('submit', submitPlaceForm);
-formElementProf.addEventListener('submit', submitFormProfile); 
+function closePopupEsc(evt){
+    if (evt.key === 'Escape') {
+        closePopup(document.querySelector('.popup_opened'))
+    }
+}
+
+function fillProfValue(){
+    nameInput.value = firstName.textContent;
+    jobInput.value = description.textContent;
+}
+
+
+formElementPlace.addEventListener('submit', handleCardFormSubmit);
+formElementProf.addEventListener('submit', handleProfileFormSubmit); 
 
 btnCloseProf.addEventListener('click', () => {
     closePopup(popupProfile);
@@ -120,33 +132,17 @@ btnClosePlace.addEventListener('click', () => {
     closePopup(popupPlace);
 });
 
-function fillProfValue(){
-    nameInput.value = firstName.textContent;
-    jobInput.value = descript.textContent;
-}
-
-function clearValue(first, second){
-    first.value = '';
-    second.value= '';
-}
-
-function closePopupEsc(evt){
-    if (evt.key === 'Escape') {
-        closePopup(document.querySelector('.popup_opened'))
-    }
-}
-
 btnEdit.addEventListener('click', (e) => {
     openPopup(popupProfile);
     fillProfValue();
-    removeInputErrors(popupProfile);
-    installActBtn(saveBtnProf, validList);
+    removeInputErrors(formElementProf, validationConfig);
+    enableButton(saveBtnProf, validationConfig);
 });
 
 btnAddPlace.addEventListener('click', (e) => {
     openPopup(popupPlace);
-    clearValue(imgNameInp, imgSrcInp);
-    removeInputErrors(popupPlace);
+    formElementPlace.reset();
+    removeInputErrors(formElementPlace, validationConfig);
 });
 popupImgClose.addEventListener('click', () => {
     closePopup(popupImg);
