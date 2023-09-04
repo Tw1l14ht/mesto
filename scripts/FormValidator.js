@@ -28,10 +28,10 @@ export class FormValidator {
         }
     }
     
-    _showInputError(inputElement) {
+    _showInputError(inputElement, inputValidMessage) {
         this._errorElement = this._formEl.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.add(this._inputErrorClass);
-        this._errorElement.textContent = inputElement.validationMessage;
+        this._errorElement.textContent = inputValidMessage;
         this._errorElement.classList.add(this._errorClass);
     }
 
