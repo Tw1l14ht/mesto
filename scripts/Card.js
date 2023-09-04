@@ -1,8 +1,10 @@
+import {openPopup} from './index.js';
+
 export class Card {
-    constructor(date, openImage, templateSelector) {
+    constructor(date, popupImg, templateSelector) {
         this._name = date.name;
         this._link = date.link;
-        this._openImage = openImage;
+        this._popupImg = popupImg;
         this._template = templateSelector;
     }
 
@@ -25,7 +27,8 @@ export class Card {
 
     _setEventListeners() {
         this._image.addEventListener('click', () => {
-            this._openImage(this._title, this._link);
+            this._handlePreviewPicture();
+            openPopup(this._popupImg);
         });
 
         this._btnLike = this._element.querySelector('.card__btn-like');
@@ -42,6 +45,13 @@ export class Card {
 
     _removeCard() {
         this._element.remove();
+        this._element = null;
+    }
+
+    _handlePreviewPicture(){
+        this._popupImg.querySelector('.popup__card-image').src = this._link;
+        this._popupImg.querySelector('.popup__card-image').alt = this._name;
+        this._popupImg.querySelector('.popup__describe').textContent = this._name;     
     }
 
 }

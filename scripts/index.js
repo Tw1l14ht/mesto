@@ -18,8 +18,6 @@ const btnCloseProf = document.querySelector('#profile__close');
 const btnClosePlace = document.querySelector('#place__close');
 const formElementProf = document.querySelector('[name="popupEditProf"]');
 const formElementPlace = document.querySelector('[name="popupAddPlace"]');
-const popupCardImg = document.querySelector('.popup__card-image');
-const popupCardDescribe = document.querySelector('.popup__describe');
 const popupImgClose= document.querySelector('.popup__close_place_card');
 const popupImg = document.querySelector('#popup__image');
 const cardsContainer = document.querySelector('.cards');
@@ -47,7 +45,7 @@ function addCard(card, spot) {
     spot.prepend(card);
 }
 
-function openPopup(popup){
+export function openPopup(popup){
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closePopupEsc);
 }
@@ -57,19 +55,11 @@ function closePopup(popup){
     document.removeEventListener('keydown', closePopupEsc);
 }
 
-function openImage(cardName, src){
-    openPopup(popupImage);
-    popupCardImg.src = src;
-    popupCardImg.alt = cardName;
-    popupCardDescribe.textContent = cardName;
-
-}
-
 function createCard(obj){
-    const card = new Card(obj, openImage, '.card-template')
-    const cardcomplited = card.generateCard();
+    const card = new Card(obj, popupImage, '.card-template')
+    const cardComplited = card.generateCard();
 
-    return cardcomplited;
+    return cardComplited;
 }
 
 
