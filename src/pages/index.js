@@ -43,14 +43,11 @@ function createCard(date){
 
 function handleProfileFormSubmit (inputs) {
     profileInfo.setUserInfo(inputs);
-    validProfForm.disableButton();
- 
 }
  
 function handleCardFormSubmit (inputs) {
     const newCard = createCard(inputs);
     cardList.addItem(newCard);
-    validPlaceForm.disableButton();
 }; 
 
 function fillProfValue(){
@@ -67,6 +64,7 @@ btnEdit.addEventListener('click', () => {
 
 btnAddPlace.addEventListener('click', () => {
     popupPlaceForm.open();
+    validPlaceForm.disableButton();
     validPlaceForm.removeInputErrors();
 });
 
