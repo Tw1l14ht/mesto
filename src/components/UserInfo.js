@@ -15,6 +15,5 @@ export default class UserInfo {
     setUserInfo(userObj) {
         this._name.textContent = userObj.inpName;
         this._jobValue.textContent = userObj.inpDescribe;
-        console.log(this._name, this._jobValue);
     }
 }
