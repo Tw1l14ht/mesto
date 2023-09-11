@@ -168,21 +168,8 @@ btnAddPlace.addEventListener('click', () => {
 
 const interf = new Api(cardApi);
 
-/* const userInfo = interf
-    .getInfo()
-    .then((data) => {
-      userId = data._id;
-      profileInfo.setUserInfo({
-        name: data.name,
-        about: data.about,
-        avatar: data.avatar,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    }); */
-
 let userId;
+
 let cardList = new Section(
   {
     renderer: (card) => {
