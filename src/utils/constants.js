@@ -37,7 +37,7 @@ export const btnAddPlace = document.querySelector(".profile__add-button");
 export const formElementProf = document.querySelector('[name="popupEditProf"]');
 export const formElementPlace = document.querySelector('[name="popupAddPlace"]');
 export const formElementAvatar = document.querySelector('#popupAvatar');
-export const popupDelCard = document.querySelector('popup__trash');
+export const popupDelCard = document.querySelector('#popup__trash');
 export const btnSaveCard = document.querySelector('#popup__place-btn');
 export const btnSaveAvatar = document.querySelector('#popup__avatar-btn');
 export const btnSaveProfile = document.querySelector('#popup__profile-btn');

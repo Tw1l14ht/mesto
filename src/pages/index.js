@@ -202,7 +202,7 @@ popupPlaceForm.setEventListeners();
 const popupAvatarForm = new PopupWithForm(popupAvatar, handleAvatarFormSubmit);
 popupAvatarForm.setEventListeners();
 
-const popupDelete = new PopupWithDelete(document.querySelector('.popup__trash'))
+const popupDelete = new PopupWithDelete(document.querySelector('#popup__trash'))
 popupDelete.setEventListeners();
 
 
