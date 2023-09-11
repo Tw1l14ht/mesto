@@ -1,14 +1,22 @@
 import Popup from "./Popup";
 
 export default class PopopWithDelete extends Popup{
-    constructor(popupSelector){
+    constructor(popupSelector, handleDelete){
         super(popupSelector);
-        this._delBtn = this._popup.querySelector("#popup__trash-btn");
+        this._formDelete = this._popup.querySelector("#deleteForm");
+        this._handleDelete = handleDelete;
     }
 
     open(delCard){
         super.open();
         this._delCard = delCard;
-        this._delBtn.onclick = this._delCard;
+    }
+
+    setEventListeners(){
+        super.setEventListeners();
+        this._formDelete.addEventListener("submit", (evt) => {
+            evt.preventDefault();
+            this._handleDelete(this._delCard);
+        });
     }
 }

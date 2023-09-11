@@ -51,7 +51,6 @@ export default class Card {
         });
         
         this._trash.addEventListener('click', () => {
-            console.log(this);
             this._deleteCard(this);
         });
     }

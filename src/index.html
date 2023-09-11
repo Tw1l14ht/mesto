@@ -113,8 +113,10 @@
         <div class="popup__container">
             <button type ="button" class="popup__close" id="trash__close"><img class="popup__img-x" src="<%=require('./images/CloseIcon.svg')%>" alt="Крестик"></button>
             <div class="popup__content">
-                <h2 class="popup__head-name popup__head-name_place_trash">Вы уверены?</h2>
-                <button id="popup__trash-btn" type ="button" class="popup__button-save">Да</button>
+                <form novalidate class="popup__form" name = "deleteCard" id ="deleteForm">
+                    <h2 class="popup__head-name popup__head-name_place_trash">Вы уверены?</h2>
+                    <button id="popup__trash-btn" type ="submit" class="popup__button-save">Да</button>
+                </form>
             </div>
         </div>
     </div>

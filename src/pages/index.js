@@ -43,20 +43,22 @@ function createCard(data){
 }
 
 function deleteCard(card){
-  popupDelete.open(() => {
-    btnTrash.textContent = 'Удаление...';
-    interf.removeCard(card.getCardId())
-      .then(() => {
-        card.removeCard();
-        popupDelete.close();
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(()=>{
-        btnTrash.textContent = 'Да';    
-      });
-  });
+  popupDelete.open(card);
+}
+
+function handleDelete(card) {
+  btnTrash.textContent = 'Удаление...';
+  interf.removeCard(card.getCardId())
+    .then(() => {
+      card.removeCard();
+      popupDelete.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(()=>{
+      btnTrash.textContent = 'Да';    
+    });
 }
 
 function putLikeCard(item) {
@@ -81,55 +83,72 @@ function deleteLikeCard(item) {
     });
 }
 
-function handleProfileFormSubmit(data) {
+function handleProfileFormSubmit(data, form) {
     const sendData = {name: data.inpName, about: data.inpDescribe};
-    profileInfo.setUserInfo({name: sendData.name, about: sendData.about});
     interf.patchUser({
       name: sendData.name,
       about: sendData.about
-    }).catch((err) => {
+    }).then(() => {
+      profileInfo.setUserInfo({name: sendData.name, about: sendData.about});
+      form.close();
+    })
+    .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      btnSaveProfile.textContent = 'Сохранить';
+      renderLoading(btnSaveProfile, false);
     });
 }
  
-function handleAvatarFormSubmit(src){
+function handleAvatarFormSubmit(src , form){
   const data = {avatar: src.avatarSrc}
-  profileInfo.setNewAvatar({avatar: data.avatar});
   interf
   .patchAvatar({ avatar: data.avatar })
-        .then(() => {})
+        .then(() => {
+          profileInfo.setNewAvatar({avatar: data.avatar});
+          form.close();
+        })
         .catch((err) => {
           console.log(err);
         })
         .finally(() => {
-          btnSaveAvatar.textContent = 'Сохранить';
+          renderLoading(btnSaveAvatar, false);
         });
 }
 
-function handleCardFormSubmit(inputs) {
+function handleCardFormSubmit(inputs, form) {
   interf.addNewCard(inputs)
       .then((inputs) => {
         const newCard = createCard(inputs);
         cardList.addItem(newCard);
+        form.close();
       }).catch((err) => {
         console.log(err);
       })
       .finally(() => {
-        btnSaveCard.textContent = 'Сохранить';
+        renderLoading(btnSaveCard, false);
       });
 }; 
 
-function fillProfValue(){
-    nameInput.value = firstName.textContent;
-    jobInput.value = description.textContent;
+function fillProfValue({name, about}){
+    nameInput.value = name;
+    jobInput.value = about;
 }
+
+function renderLoading(button, isLoad){
+    if(isLoad){
+      button.textContent = 'Сохранение...';
+    }
+    else{
+      button.textContent = 'Сохранить';
+    }
+}
+
 
 btnEdit.addEventListener('click', () => {
     popupProfileForm.open();
-    fillProfValue();
+    const userData = profileInfo.getUserInfo();
+    fillProfValue({name: userData.name, about: userData.about});
     validProfForm.removeInputErrors();
     validProfForm.enableButton();
 });
@@ -148,26 +167,8 @@ btnAddPlace.addEventListener('click', () => {
 });
 
 const interf = new Api(cardApi);
-const cardsServer = interf
-  .getInitialCards()
-  .then(function (data) {
-    cardList = new Section(
-      {
-        items: data,
-        renderer: (card) => {
-          cardList.addItem(createCard(card));
-        },
-      },
-      ".cards"
-    );
-  })
-  .catch((err) => {
-    console.log(err);
-  });
 
-
-
-const userInfo = interf
+/* const userInfo = interf
     .getInfo()
     .then((data) => {
       userId = data._id;
@@ -179,11 +180,16 @@ const userInfo = interf
     })
     .catch((err) => {
       console.log(err);
-    });
-
+    }); */
 
 let userId;
-let cardList;
+let cardList = new Section(
+  {
+    renderer: (card) => {
+      cardList.addItem(createCard(card));
+    }
+  },".cards");
+
 const validPlaceForm = new FormValidator(formElementPlace, validationConfig);
 validPlaceForm.enableValidation();
 
@@ -202,7 +208,7 @@ popupPlaceForm.setEventListeners();
 const popupAvatarForm = new PopupWithForm(popupAvatar, handleAvatarFormSubmit);
 popupAvatarForm.setEventListeners();
 
-const popupDelete = new PopupWithDelete(document.querySelector('#popup__trash'))
+const popupDelete = new PopupWithDelete(document.querySelector('#popup__trash'), handleDelete)
 popupDelete.setEventListeners();
 
 
@@ -211,4 +217,16 @@ const profileInfo = new UserInfo({firstName: firstName, description: description
 const popupProfileForm = new PopupWithForm(popupProfile, handleProfileFormSubmit);
 popupProfileForm.setEventListeners();
 
-Promise.all([userInfo, cardsServer]).then(() => cardList.renderItems());
+Promise.all([interf.getInfo(), interf.getInitialCards()])
+  .then(([userData, cardData]) => {
+    userId = userData._id;
+    profileInfo.setUserInfo({
+      name: userData.name,
+      about: userData.about,
+      avatar: userData.avatar,
+    });
+    cardList.renderItems(cardData);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
